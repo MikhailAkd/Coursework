@@ -53,8 +53,127 @@ public class Main {
         }
         System.out.println("Сумма затрат на зарплаты в месяц: " + sum);
         System.out.println();
-        System.out.println("Среднее значение зарплат: " + sum / employees.length);
+        System.out.println("Среднее значение зарплат: " + ((float) sum / employees.length));
         System.out.println();
+    }
+
+    public static void salaryIndex(int index) {
+        if (index <= 0) {
+            throw new IllegalArgumentException("Индексация должна быть положительной");
+        }
+        for (Employee employee : employees) {
+            int currentSalary = employee.getSalary();
+            employee.setSalary((int) (currentSalary * (index / 100f + 1)));
+        }
+        System.out.println("Зарплата сотрудников повышена на " + index + "%. Обновленные данные: ");
+        for(Employee employee :employees) {
+            System.out.println(employee);
+        }
+        System.out.println();
+    }
+
+    public static void minSalaryDepartment(int numberDepartment) {
+        if (numberDepartment <= 0 || numberDepartment > 5) {
+            throw new IllegalArgumentException("В организации нет такого отдела");
+        }
+        Employee minSalaryEmployeeDepartment = employees[numberDepartment - 1];
+        int minSalary = employees[numberDepartment - 1].getSalary();
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment && minSalary > employee.getSalary()) {
+                minSalary = employee.getSalary();
+                minSalaryEmployeeDepartment = employee;
+            }
+        }
+        System.out.println("Сотрудник с минимальной зарплатой в выбранном отделе - " + minSalaryEmployeeDepartment);
+        System.out.println();
+    }
+
+    public static void maxSalaryDepartment(int numberDepartment) {
+        if (numberDepartment <= 0 || numberDepartment > 5) {
+            throw new IllegalArgumentException("В организации нет такого отдела");
+        }
+        Employee minSalaryEmployeeDepartment = employees[numberDepartment - 1];
+        int minSalary = employees[numberDepartment - 1].getSalary();
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment && minSalary < employee.getSalary()) {
+                minSalary = employee.getSalary();
+                minSalaryEmployeeDepartment = employee;
+            }
+        }
+        System.out.println("Сотрудник с максимальной зарплатой в выбранном отделе - " + minSalaryEmployeeDepartment);
+        System.out.println();
+    }
+
+    public static void salaryCostsDepartment(int numberDepartment) {
+        if (numberDepartment <= 0 || numberDepartment > 5) {
+            throw new IllegalArgumentException("В организации нет такого отдела");
+        }
+        int sumSalaryDepartment = 0;
+        int i = 0;
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment) {
+                sumSalaryDepartment += employee.getSalary();
+                i++;
+            }
+        }
+        System.out.println("Сумма затрат на зарплаты в выбранном отделе: " + sumSalaryDepartment);
+        System.out.println();
+        System.out.println("Среднее значение зарплат: " + ((float) sumSalaryDepartment / i));
+        System.out.println();
+    }
+
+    public static void salaryIndexDepartment(int numberDepartment, int indexDepartment) {
+        if (indexDepartment <= 0) {
+            throw new IllegalArgumentException("Индексация должна быть положительной");
+        }
+        if (numberDepartment <= 0 || numberDepartment > 5) {
+            throw new IllegalArgumentException("В организации нет такого отдела");
+        }
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment) {
+                int currentSalary = employee.getSalary();
+                employee.setSalary((int) (currentSalary * (indexDepartment / 100f + 1)));
+            }
+        }
+        System.out.println("Зарплата сотрудников " + numberDepartment + " отдела повышена на " + indexDepartment + "%. Обновленные данные: ");
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment) {
+                System.out.println("ФИО: " + employee.getSurname() + " " + employee.getName() + " " + employee.getPatronymic() + ". Зарплата: " + employee.getSalary() + ". ID: " + employee.getId());
+            }
+        }
+        System.out.println();
+    }
+
+    public static void listOfEmployeesDepartment (int numberDepartment) {
+        if (numberDepartment <= 0 || numberDepartment > 5) {
+            throw new IllegalArgumentException("В организации нет такого отдела");
+        }
+        System.out.println("Список сотрудников " + numberDepartment + " отдела:");
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == numberDepartment) {
+                System.out.println("ФИО: " + employee.getSurname() + " " + employee.getName() + " " + employee.getPatronymic() + ". Зарплата: " + employee.getSalary() + ". ID: " + employee.getId());
+            }
+        }
+        System.out.println();
+    }
+
+    public static void selectionEmployees (int desiredSalary) {
+        if (desiredSalary <= 0) {
+            throw new IllegalArgumentException("Зарплата должна быть положительным числом");
+        }
+        System.out.println("Сотрудники с зарплатой ниже заданного значения: ");
+        for (Employee employee : employees) {
+            if (desiredSalary > employee.getSalary()) {
+                System.out.println("ФИО: " + employee.getSurname() + " " + employee.getName() + " " + employee.getPatronymic() + ". Зарплата: " + employee.getSalary() + ". ID: " + employee.getId());
+            }
+        }
+        System.out.println();
+        System.out.println("Сотрудники с зарплатой выше заданного значения: ");
+        for (Employee employee : employees) {
+            if (desiredSalary <= employee.getSalary()) {
+                System.out.println("ФИО: " + employee.getSurname() + " " + employee.getName() + " " + employee.getPatronymic() + ". Зарплата: " + employee.getSalary() + ". ID: " + employee.getId());
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -92,5 +211,19 @@ public class Main {
         System.out.println();
 
         listOfEmployees();
+
+        salaryIndex(5);
+
+        minSalaryDepartment(2);
+
+        maxSalaryDepartment(1);
+
+        salaryCostsDepartment(3);
+
+        salaryIndexDepartment(4, 3);
+
+        listOfEmployeesDepartment(5);
+
+        selectionEmployees(45000);
     }
 }
